@@ -83,14 +83,14 @@ ${PKG_ROOT}/.stamp-h: conf/requirements*.pip ${CACHE_ROOT}/virtualenv/virtualenv
 	
 	# readline is installed here to get around a bug on Mac OS X which is
 	# causing readline to not build properly if installed from pip.
-	"${PKG_ROOT}"/bin/easy_install readline
+	#"${PKG_ROOT}"/bin/easy_install readline
 	
 	# pip is used to install Python dependencies for this project.
-	for reqfile in conf/requirements*.pip; do \
-	  "${PKG_ROOT}"/bin/python "${PKG_ROOT}"/bin/pip install \
-	    --download-cache="${CACHE_ROOT}"/pypi \
-	    -r $$reqfile; \
-	done
+	#for reqfile in conf/requirements*.pip; do \
+	#  "${PKG_ROOT}"/bin/python "${PKG_ROOT}"/bin/pip install \
+	#    --download-cache="${CACHE_ROOT}"/pypi \
+	#    -r $$reqfile; \
+	#done
 	
 	# All done!
 	touch "${PKG_ROOT}"/.stamp-h

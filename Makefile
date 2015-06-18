@@ -3,6 +3,7 @@
 ROOT=$(shell pwd)
 CACHE_ROOT=${ROOT}/.cache
 PKG_ROOT=${ROOT}/.pkg
+TAR=gtar
 
 -include Makefile.local
 
@@ -69,7 +70,7 @@ ${PKG_ROOT}/.stamp-h: conf/requirements*.pip ${CACHE_ROOT}/virtualenv/virtualenv
 	
 	# ``virtualenv`` is used to create a separate Python installation for
 	# this project in ``${PKG_ROOT}``.
-	tar \
+	$TAR \
 	  -C "${CACHE_ROOT}"/virtualenv --gzip \
 	  -xf "${CACHE_ROOT}"/virtualenv/virtualenv-1.10.1.tar.gz
 	python "${CACHE_ROOT}"/virtualenv/virtualenv-1.10.1/virtualenv.py \

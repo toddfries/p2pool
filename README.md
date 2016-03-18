@@ -1,7 +1,7 @@
 Requirements:
 -------------------------
 Generic:
-* Bitcoin >=0.8.5
+* Bitcoin >=0.11.1
 * Python >=2.6
 * Twisted >=10.0.0
 * python-argparse (for Python =2.6)
@@ -68,7 +68,7 @@ In bash type this:
     cd litecoin_scrypt
     C:\Python27\python.exe setup.py build --compile=mingw32 install
 
-Windows (microsoft visual c++)
+Windows (Microsoft Visual C++)
 * Open visual studio console
 
 In bash type this:

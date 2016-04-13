@@ -242,13 +242,13 @@ class Node(object):
                 new_known_txs[tx_hash] = tx
             self.mining_txs_var.set(new_mining_txs)
             self.known_txs_var.set(new_known_txs)
-        # add p2p transactions from bitcoind to known_txs
+        # add p2p transactions from the block data source to known_txs
         @self.factory.new_tx.watch
         def _(tx):
             new_known_txs = dict(self.known_txs_var.value)
             new_known_txs[bitcoin_data.hash256(bitcoin_data.tx_type.pack(tx))] = tx
             self.known_txs_var.set(new_known_txs)
-        # forward transactions seen to bitcoind
+        # forward transactions seen to the block data source
         @self.known_txs_var.transitioned.watch
         @defer.inlineCallbacks
         def _(before, after):
@@ -269,7 +269,7 @@ class Node(object):
                 return
             helper.submit_block(block, True, self.factory, self.bitcoind, self.bitcoind_work, self.net)
             print
-            print 'GOT BLOCK FROM PEER! Passing to bitcoind! %s bitcoin: %s%064x' % (p2pool_data.format_hash(share.hash), self.net.PARENT.BLOCK_EXPLORER_URL_PREFIX, share.header_hash)
+            print 'GOT BLOCK FROM PEER! Passing to block data source! %s bitcoin: %s%064x' % (p2pool_data.format_hash(share.hash), self.net.PARENT.BLOCK_EXPLORER_URL_PREFIX, share.header_hash)
             print
         
         def forget_old_txs():

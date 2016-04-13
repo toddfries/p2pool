@@ -11,7 +11,7 @@ from p2pool.util import deferral, jsonrpc
 @defer.inlineCallbacks
 def check(bitcoind, net):
     if not (yield net.PARENT.RPC_CHECK(bitcoind)):
-        print >>sys.stderr, "    Check failed! Make sure that you're connected to the right bitcoind with --bitcoind-rpc-port!"
+        print >>sys.stderr, "    Check failed! Make sure that you're connected to the right block data source with --bitcoind-rpc-port!"
         raise deferral.RetrySilentlyException()
     
     version_check_result = net.VERSION_CHECK((yield bitcoind.rpc_getinfo())['version'])
@@ -29,7 +29,7 @@ def check(bitcoind, net):
         print 'Coin daemon too old! Upgrade!'
         raise deferral.RetrySilentlyException()
 
-@deferral.retry('Error getting work from bitcoind:', 3)
+@deferral.retry('Error getting work from block data source:', 3)
 @defer.inlineCallbacks
 def getwork(bitcoind, use_getblocktemplate=False):
     def go():
@@ -74,7 +74,7 @@ def getwork(bitcoind, use_getblocktemplate=False):
 @deferral.retry('Error submitting primary block: (will retry)', 10, 10)
 def submit_block_p2p(block, factory, net):
     if factory.conn.value is None:
-        print >>sys.stderr, 'No bitcoind connection when block submittal attempted! %s%064x' % (net.PARENT.BLOCK_EXPLORER_URL_PREFIX, bitcoin_data.hash256(bitcoin_data.block_header_type.pack(block['header'])))
+        print >>sys.stderr, 'No block data source connection when block submittal attempted! %s%064x' % (net.PARENT.BLOCK_EXPLORER_URL_PREFIX, bitcoin_data.hash256(bitcoin_data.block_header_type.pack(block['header'])))
         raise deferral.RetrySilentlyException()
     factory.conn.value.send_block(block=block)
 
